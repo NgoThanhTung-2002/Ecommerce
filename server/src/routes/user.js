@@ -1,0 +1,16 @@
+import * as controller from "../controllers";
+import express from "express";
+import verifytoken from "../middlewares/verify_token";
+import { isAdmin, isCreatorOrAdmin } from "../middlewares/verify_roles";
+const router = express.Router();
+router.get("/", [verifytoken, isAdmin], controller.getUsers);
+router.post("/register", controller.register);
+router.get("/current", [verifytoken], controller.getCurrent);
+router.post("/login", controller.login);
+router.post("/forgotpassword", controller.forgotPassword);
+router.put("/resetpassword", controller.resetPassword);
+router.put("/current", [verifytoken], controller.updateCurrent);
+router.put("/:uid", [verifytoken], controller.updateUser);
+router.delete("/:uid", [verifytoken, isAdmin], controller.deleteUsers);
+router.put("/finalregister/:token", controller.finalregister);
+module.exports = router;
